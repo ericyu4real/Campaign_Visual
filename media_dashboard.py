@@ -89,6 +89,7 @@ elif time_granularity == "Quarter":
 else:  # Month
     filtered_df["Time Period"] = filtered_df["Date"].dt.to_period("M").astype(str)
 time_spend = filtered_df.groupby("Time Period")["Spend"].sum().reset_index()
+filtered_df.drop(columns=["Time Period"], inplace=True)
 fig4 = px.bar(
     time_spend,
     x="Time Period",
