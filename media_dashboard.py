@@ -11,7 +11,6 @@ def load_data():
     df = pd.read_excel("temp.xlsx", engine="openpyxl")
     df = df[df["Brand"].isin(['Dove', 'LIV', 'HM', 'TRES', 'DMC', 'Knorr', 'Axe'])]  # only keep these 7 brands
     df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
-    df["Date"] = df["Date"].dt.date
     for col in ['Platform', 'Brand', 'Category', 'Funnel Stage', 'Ad Format']:
         df[col] = df[col].astype('category')
     return df
@@ -82,4 +81,5 @@ st.plotly_chart(fig3, use_container_width=True)
 
 # Optional: Show filtered data
 with st.expander("📄 View Filtered Data"):
+    filtered_df["Date"] = filtered_df["Date"].dt.date
     st.dataframe(filtered_df)
