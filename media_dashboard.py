@@ -79,6 +79,18 @@ funnel_dist.columns = ['Funnel Stage', 'Count']
 fig3 = px.pie(funnel_dist, names='Funnel Stage', values='Count', title='Funnel Stage Breakdown')
 st.plotly_chart(fig3, use_container_width=True)
 
+# Bar chart: Spend by Quarter and Year
+st.subheader("🗓️ Spend by Time Period")
+time_granularity = st.radio("Select Time Granularity", ["Quarter", "Month"], horizontal=True)
+if time_granularity == "Quarter":
+    filtered_df['Time Period'] = filtered_df['Date'].dt.to_period('Q').astype(str)
+else:
+    filtered_df['Time Period'] = filtered_df['Date'].dt.to_period('M').astype(str)
+time_spend = filtered_df.groupby('Time Period')['Spend'].sum().reset_index()
+fig4 = px.bar(time_spend, x='Time Period', y='Spend', text_auto=True, title=f"Spend by {time_granularity}")
+st.plotly_chart(fig4, use_container_width=True)
+
+
 # Optional: Show filtered data
 with st.expander("📄 View Filtered Data"):
     filtered_df["Date"] = filtered_df["Date"].dt.date
