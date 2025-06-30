@@ -11,6 +11,7 @@ def load_data():
     df = pd.read_excel("temp.xlsx", engine="openpyxl")
     df = df[df["Brand"].isin(['Dove', 'LIV', 'HM', 'TRES', 'DMC', 'Knorr', 'Axe'])]  # only keep these 7 brands
     df['Date'] = pd.to_datetime(df['Date'], errors='coerce')
+    df["Date"] = df["Date"].dt.date
     for col in ['Platform', 'Brand', 'Category', 'Funnel Stage', 'Ad Format']:
         df[col] = df[col].astype('category')
     return df
